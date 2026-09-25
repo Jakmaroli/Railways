@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", "IBM Plex Sans", -apple-system, sans-serif;
+  --font-body: "IBM Plex Sans", -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  /* Control-room deep navy dark theme */
+  --color-ink: #060A12;
+  --color-background: #080E1C;
+  --color-surface: #0C1527;
+  --color-panel: #0F1A30;
+  --color-panel-raised: #142340;
+  --color-panel-highlight: #1B2E52;
+  --color-line: #1D2D49;
+  --color-line-subtle: #152238;
+
+  --color-steel: #778CA5;
+  --color-fog: #B2C4D9;
+  --color-paper: #EDF3FA;
+  --color-primary: #3B82F6;
+  --color-primary-hover: #2563EB;
+  --color-cyan: #38BDF8;
+
+  --color-signal-amber: #F59E0B;
+  --color-signal-amber-dim: #2A1D08;
+  --color-signal-green: #10B981;
+  --color-signal-green-dim: #05261C;
+  --color-signal-red: #EF4444;
+  --color-signal-red-dim: #2B0D0E;
+  --color-signal-blue: #3B82F6;
+  --color-signal-blue-dim: #0B1C38;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-background);
+  color: var(--color-paper);
+}
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Control-room custom technical scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-steel);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Technical railway network grid effect */
+.railway-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(29, 45, 73, 0.4) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(29, 45, 73, 0.4) 1px, transparent 1px);
+}
+
+.railway-grid-dense {
+  background-size: 16px 16px;
+  background-image: 
+    linear-gradient(to right, rgba(29, 45, 73, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(29, 45, 73, 0.25) 1px, transparent 1px);
+}
+
+.radar-sweep {
+  background: conic-gradient(from 0deg at 50% 50%, rgba(59, 130, 246, 0.15) 0deg, transparent 60deg, transparent 360deg);
+  animation: sweep 8s linear infinite;
+}
+
+@keyframes sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
