@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      ENV: development
+      DATABASE_URL: sqlite:///./railsync.db
+      REDIS_URL: redis://redis:6379/0
+      JWT_SECRET: railsync_hardened_local_docker_secret_minimum_32_characters
+      JWT_ISSUER: railsync-api
+      JWT_AUDIENCE: railsync-web
+      RAILSYNC_ALLOWED_ORIGINS: http://localhost:5173,http://localhost:4173
+      COOKIE_SECURE: "false"
+    depends_on:
+      - redis
+    volumes:
+      - backend_data:/app
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:4173"
+    depends_on:
+      - backend
+
+volumes:
+  backend_data:
+  redis_data:
