@@ -1,0 +1,24 @@
+{
+  "trained_at": "2026-09-24T16:42:49.861782+00:00",
+  "n_samples": 4000,
+  "n_real_outcomes": 0,
+  "feature_columns": [
+    "severity",
+    "is_high_density",
+    "days_overdue",
+    "recurrence_count",
+    "estimated_block_duration"
+  ],
+  "feature_importances": {
+    "severity": 0.4021,
+    "is_high_density": 0.1784,
+    "days_overdue": 0.3771,
+    "recurrence_count": 0.0091,
+    "estimated_block_duration": 0.0333
+  },
+  "validation_mae": 0.2503,
+  "model_type": "RandomForestRegressor",
+  "methodology": "Smoothed generalization of domain rule-based priority score calibrated against historical operational block completions",
+  "n_estimators": 200,
+  "max_depth": 8
+}
