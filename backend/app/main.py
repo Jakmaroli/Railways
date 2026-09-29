@@ -88,7 +88,7 @@ raw_origins = os.getenv("RAILSYNC_ALLOWED_ORIGINS") or os.getenv("ALLOWED_ORIGIN
 if raw_origins:
     ALLOWED_ORIGINS = [orig.strip() for orig in raw_origins.split(",") if orig.strip()]
 else:
-    ALLOWED_ORIGINS = ["http://localhost:5173", "http://localhost:4173"]
+    ALLOWED_ORIGINS = ["http://localhost:5173", "http://localhost:4173", "http://localhost:5180"]
 
 # Forbid wildcard origin with credentials
 if "*" in ALLOWED_ORIGINS:

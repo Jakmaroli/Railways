@@ -37,6 +37,17 @@ export interface Defect {
   health_score?: number;
 }
 
+export type PossessionStatus =
+  | "planned"
+  | "scheduled"
+  | "safety_approved"
+  | "issued"
+  | "active"
+  | "completed"
+  | "overrun"
+  | "rescheduled"
+  | "rejected";
+
 export interface ScheduleBlock {
   id: number;
   task_id: number | null;
@@ -47,9 +58,10 @@ export interface ScheduleBlock {
   priority_score: number;
   merged_with: string | null;
   explanation_text: string;
-  status: string;
+  status: PossessionStatus | string;
   actual_duration: number | null;
   possession_number?: string | null;
+  rejection_reason?: string | null;
 }
 
 export interface BlockRequest {

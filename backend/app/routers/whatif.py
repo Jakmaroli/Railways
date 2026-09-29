@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
@@ -5,9 +6,10 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 from ..database import get_db
 from ..auth import get_current_user
-from ..scheduler import generate_schedule
+from ..scheduler import generate_schedule, generate_schedule_v2
 
 router = APIRouter(prefix="/api/whatif", tags=["whatif"])
+USE_OPTIMIZER_V2 = os.getenv("SCHEDULER_ENGINE", "v2") == "v2"
 
 
 @router.post("")
@@ -29,7 +31,8 @@ def whatif(payload: schemas.WhatIfIn, db: Session = Depends(get_db), _=Depends(g
     if payload.corridors:
         corridors_df = pd.DataFrame(payload.corridors)
 
-    schedule_df = generate_schedule(defects_df, corridors_df, timetable_df)
+    schedule_fn = generate_schedule_v2 if USE_OPTIMIZER_V2 else generate_schedule
+    schedule_df = schedule_fn(defects_df, corridors_df, timetable_df)
     schedule_df = schedule_df.astype(object).where(pd.notna(schedule_df), None)
 
     # EnvelopeMiddleware adds the {"status": "success", "data": ...} wrapper.

@@ -69,8 +69,13 @@ def ml_insights(db: Session = Depends(get_db), _=Depends(get_current_user)):
     total_blocks = db.query(models.ScheduleBlock).count()
     completed = db.query(models.ScheduleBlock).filter(models.ScheduleBlock.status == "completed").count()
     overrun = db.query(models.ScheduleBlock).filter(models.ScheduleBlock.status == "overrun").count()
-    planned = db.query(models.ScheduleBlock).filter(models.ScheduleBlock.status == "planned").count()
+    planned = db.query(models.ScheduleBlock).filter(
+        models.ScheduleBlock.status.in_(["planned", "issued", "scheduled", "safety_approved"])
+    ).count()
     merged_blocks = db.query(models.ScheduleBlock).filter(models.ScheduleBlock.merged_with.isnot(None)).count()
+
+    from ..scheduler import get_last_optimization_metrics
+    optimizer_metrics = get_last_optimization_metrics()
 
     return {
         "engine": engine_status,
@@ -81,4 +86,5 @@ def ml_insights(db: Session = Depends(get_db), _=Depends(get_current_user)):
             "planned": planned,
             "merged_blocks": merged_blocks,
         },
+        "optimizer": optimizer_metrics,
     }
